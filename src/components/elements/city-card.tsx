@@ -1,4 +1,13 @@
-function CityCard(): JSX.Element {
+import { Offer } from '../../types/offer';
+
+type CityCardProps = {
+  offer: Offer;
+}
+
+function CityCard(props: CityCardProps): JSX.Element {
+  const {offer} = props;
+  const {src, price, rating, description, type} = offer;
+
   return (
     <article className="cities__card place-card">
       <div className="place-card__mark">
@@ -8,7 +17,7 @@ function CityCard(): JSX.Element {
         <a href="#">
           <img
             className="place-card__image"
-            src="img/apartment-03.jpg"
+            src={src}
             width={260}
             height={200}
             alt="Place image"
@@ -18,7 +27,7 @@ function CityCard(): JSX.Element {
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€180</b>
+            <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -30,14 +39,14 @@ function CityCard(): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '100%' }} />
+            <span style={{ width: rating }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Nice, cozy, warm big bed apartment</a>
+          <a href="#">{description}</a>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );

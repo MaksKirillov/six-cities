@@ -6,18 +6,20 @@ import FavouritesScreen from './components/pages/favourites-screen';
 import OfferScreen from './components/pages/offer-screen';
 import NotFoundScreen from './components/pages/not-found-screen';
 import PrivateRoute from './components/private-route/private-route';
+import { Offers } from './types/offer';
 
 type AppScreenProps = {
   numberOfOffers: number;
+  offers: Offers;
 }
 
-function App({numberOfOffers}: AppScreenProps): JSX.Element {
+function App({numberOfOffers, offers}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen numberOfOffers={numberOfOffers} />}
+          element={<MainScreen numberOfOffers={numberOfOffers} offers={offers} />}
         />
         <Route
           path={AppRoute.Login}

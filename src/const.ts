@@ -1,5 +1,5 @@
 export const Setting = {
-  NumberOfOffers: 5
+  NumberOfOffers: 4
 };
 
 export enum AppRoute {

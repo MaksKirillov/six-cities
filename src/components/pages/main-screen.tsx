@@ -1,10 +1,12 @@
-import CityCard from '../elements/city-card';
+import { Offers } from '../../types/offer';
+import ListOfCards from '../elements/list-of-cards';
 
 type MainScreenProps = {
   numberOfOffers: number;
+  offers: Offers;
 }
 
-function MainScreen({numberOfOffers}: MainScreenProps): JSX.Element {
+function MainScreen({numberOfOffers, offers}: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -114,13 +116,7 @@ function MainScreen({numberOfOffers}: MainScreenProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <CityCard />
-                <CityCard />
-                <CityCard />
-                <CityCard />
-                <CityCard />
-              </div>
+              <ListOfCards offers={offers} numberOfOffers={numberOfOffers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map" />
