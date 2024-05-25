@@ -1,11 +1,11 @@
 export const Setting = {
-  NumberOfOffers: 5
+  NumberOfOffers: 4
 };
 
 export enum AppRoute {
   Main = '/',
   Login = '/login',
-  Favorites = '/favorites',
+  Favourites = '/favourites',
   Offer = '/offer/:id'
 }
 

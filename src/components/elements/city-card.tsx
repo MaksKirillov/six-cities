@@ -1,24 +1,46 @@
-function CityCard(): JSX.Element {
-  return (
-    <article className="cities__card place-card">
+import { Offer } from '../../types/offer';
+import { Link } from 'react-router-dom';
+
+type CityCardProps = {
+  offer: Offer;
+}
+
+function PremiumCard (isPremium: boolean): JSX.Element {
+  if (isPremium) {
+    return (
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
+    );
+  } else {
+    return (
+      <div></div>
+    );
+  }
+}
+
+function CityCard(props: CityCardProps): JSX.Element {
+  const {offer} = props;
+  const {id, src, price, rating, description, type, isPremium} = offer;
+
+  return (
+    <article className="cities__card place-card">
+      {PremiumCard(isPremium)}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
-            src="img/apartment-03.jpg"
+            src={src}
             width={260}
             height={200}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€180</b>
+            <b className="place-card__price-value">€{price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -30,14 +52,14 @@ function CityCard(): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '100%' }} />
+            <span style={{ width: rating }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">Nice, cozy, warm big bed apartment</a>
+          <Link to={`/offer/${id}`}>{description}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
