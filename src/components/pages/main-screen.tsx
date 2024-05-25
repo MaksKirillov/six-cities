@@ -122,7 +122,7 @@ function MainScreen({numberOfOffers, offers}: MainScreenProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className='cities__map map'>
-                <Map city={offers[0]} points={offers} selectedPoint={undefined} />
+                <Map city={offers[0]} points={offers} selectedPoint={offers[0]} />
               </section>
             </div>
           </div>

@@ -7,13 +7,16 @@ import OfferScreen from './components/pages/offer-screen';
 import NotFoundScreen from './components/pages/not-found-screen';
 import PrivateRoute from './components/private-route/private-route';
 import { Offers } from './types/offer';
+import { Reviews } from './types/review';
 
 type AppScreenProps = {
   numberOfOffers: number;
   offers: Offers;
+  numberOfReviews: number;
+  reviews: Reviews;
 }
 
-function App({numberOfOffers, offers}: AppScreenProps): JSX.Element {
+function App({numberOfOffers, offers, numberOfReviews, reviews}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -37,7 +40,7 @@ function App({numberOfOffers, offers}: AppScreenProps): JSX.Element {
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferScreen />}
+          element={<OfferScreen numberOfReviews={numberOfReviews} rewiews={reviews} numberOfOffers={numberOfOffers} offers={offers} />}
         />
         <Route
           path="*"
