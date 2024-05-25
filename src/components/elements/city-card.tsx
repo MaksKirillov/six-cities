@@ -21,7 +21,7 @@ function PremiumCard (isPremium: boolean): JSX.Element {
 
 function CityCard(props: CityCardProps): JSX.Element {
   const {offer} = props;
-  const {id, src, price, rating, description, type, isPremium} = offer;
+  const {id, src, price, rating, title, type, isPremium} = offer;
 
   return (
     <article className="cities__card place-card">
@@ -57,7 +57,7 @@ function CityCard(props: CityCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{description}</Link>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

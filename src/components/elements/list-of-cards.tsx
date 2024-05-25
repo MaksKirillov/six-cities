@@ -9,7 +9,7 @@ type ListOfCardsProps = {
 function ListOfCards({numberOfOffers, offers}: ListOfCardsProps): JSX.Element {
   const cardList = [];
   for (let i = 0; i < numberOfOffers; i++) {
-    cardList.push(<CityCard offer={offers[i]}/>);
+    cardList.push(<li key = {i}><CityCard offer={offers[i]}/></li>);
   }
 
   return (
