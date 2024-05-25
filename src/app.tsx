@@ -26,7 +26,7 @@ function App({numberOfOffers, offers}: AppScreenProps): JSX.Element {
           element={<LoginScreen />}
         />
         <Route
-          path={AppRoute.Favorites}
+          path={AppRoute.Favourites}
           element={
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NoAuth}
