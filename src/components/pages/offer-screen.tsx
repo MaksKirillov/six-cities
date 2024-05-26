@@ -5,15 +5,14 @@ import ListOfNearCards from '../elements/list-of-near-cards';
 import { Reviews } from '../../types/review';
 import { Offers } from '../../types/offer';
 import Map from '../map/map';
+import { useAppSelector } from '../../hooks';
 
 type OfferScreenProps = {
-  numberOfOffers: number;
-  offers: Offers;
-  numberOfReviews: number;
-  rewiews: Reviews;
+  reviews: Reviews;
 }
 
-function OfferScreen({numberOfOffers, offers, numberOfReviews, rewiews}: OfferScreenProps): JSX.Element {
+function OfferScreen({reviews}: OfferScreenProps): JSX.Element {
+  const offers: Offers = useAppSelector((state) => state.offerList);
   return (
     <div className="page">
       <header className="header">
@@ -183,15 +182,15 @@ function OfferScreen({numberOfOffers, offers, numberOfReviews, rewiews}: OfferSc
               </div>
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews · <span className="reviews__amount">{numberOfReviews}</span>
+                  Reviews · <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <ListOfReviews numberOfReviews={numberOfReviews} rewiews={rewiews}/>
+                <ListOfReviews numberOfReviews={reviews.length} rewiews={reviews}/>
                 <ReviewForm/>
               </section>
             </div>
           </div>
           <section className='cities__map map'>
-            <Map city={offers[0]} points={offers} />
+            <Map points={offers} />
           </section>
         </section>
         <div className="container">
@@ -199,7 +198,7 @@ function OfferScreen({numberOfOffers, offers, numberOfReviews, rewiews}: OfferSc
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <ListOfNearCards numberOfOffers={numberOfOffers} offers={offers} />
+            <ListOfNearCards offers={offers} />
           </section>
         </div>
       </main>

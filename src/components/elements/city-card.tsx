@@ -1,74 +1,17 @@
-import { Offer } from '../../types/offer';
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
-import { setSelectedPoint } from '../../store/action';
+import { City } from '../../types/offer';
 
-type CityCardProps = {
-  offer: Offer;
-}
+type CityProps = {
+  city: City;
+  changeSelectedCity: (city: City) => void;
+};
 
-function PremiumCard (isPremium: boolean): JSX.Element {
-  if (isPremium) {
-    return (
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
-    );
-  } else {
-    return (
-      <div></div>
-    );
-  }
-}
-
-function CityCard(props: CityCardProps): JSX.Element {
-  const {offer} = props;
-  const {id, src, price, rating, title, type, isPremium} = offer;
-  const dispatch = useAppDispatch();
-
+function CityCard({ city, changeSelectedCity }: CityProps): JSX.Element {
   return (
-    <article
-      className="cities__card place-card"
-      onMouseOver={() => dispatch(setSelectedPoint({ title }))}
-      onMouseLeave={() => dispatch(setSelectedPoint(null))}
-    >
-      {PremiumCard(isPremium)}
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${id}`}>
-          <img
-            className="place-card__image"
-            src={src}
-            width={260}
-            height={200}
-            alt="Place image"
-          />
-        </Link>
-      </div>
-      <div className="place-card__info">
-        <div className="place-card__price-wrapper">
-          <div className="place-card__price">
-            <b className="place-card__price-value">€{price}</b>
-            <span className="place-card__price-text">/&nbsp;night</span>
-          </div>
-          <button className="place-card__bookmark-button button" type="button">
-            <svg className="place-card__bookmark-icon" width={18} height={19}>
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
-        </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{ width: rating }} />
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
-        <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{title}</Link>
-        </h2>
-        <p className="place-card__type">{type}</p>
-      </div>
-    </article>
+    <li className="locations__item" onClick={() => changeSelectedCity(city)}>
+      <a className="locations__item-link tabs__item" href="#">
+        <span>{city.name}</span>
+      </a>
+    </li>
   );
 }
 

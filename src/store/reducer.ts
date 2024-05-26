@@ -1,25 +1,37 @@
 import {createReducer} from '@reduxjs/toolkit';
-import { offers } from '../mocks/offers';
-import { Offers } from '../types/offer';
+import { City, Offers } from '../types/offer';
 import { changeCity,
-  fillOfferList,
   setSelectedPoint,
-  setSortType } from './action';
+  setSortType,
+  loadOffers,
+  setError,
+  setOffersDataLoadingStatus } from './action';
 
 type StateType = {
-  city: string;
+  city: City;
   offerList: Offers;
   selectedSortType: string;
   selectedPoint: {
     title: string;
   } | null;
+  isOffersDataLoading: boolean;
+  error: string | null;
 };
 
 const initialState: StateType = {
-  city: 'Paris',
+  city: {
+    name: 'Paris',
+    location: {
+      latitude: 48.864716,
+      longitude: 2.349014,
+      zoom: 10,
+    },
+  },
   offerList: [],
   selectedSortType: 'Popular',
   selectedPoint: null,
+  isOffersDataLoading: false,
+  error: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -27,14 +39,20 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, { payload }) => {
       state.city = payload;
     })
-    .addCase(fillOfferList, (state) => {
-      state.offerList = offers;
+    .addCase(loadOffers, (state, { payload }) => {
+      state.offerList = payload;
     })
     .addCase(setSortType, (state, { payload }) => {
       state.selectedSortType = payload;
     })
     .addCase(setSelectedPoint, (state, { payload }) => {
       state.selectedPoint = payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
     });
 });
 
