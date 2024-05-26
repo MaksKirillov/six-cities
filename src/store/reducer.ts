@@ -1,16 +1,25 @@
 import {createReducer} from '@reduxjs/toolkit';
 import { offers } from '../mocks/offers';
 import { Offers } from '../types/offer';
-import { changeCity, fillOfferList } from './action';
+import { changeCity,
+  fillOfferList,
+  setSelectedPoint,
+  setSortType } from './action';
 
 type StateType = {
   city: string;
   offerList: Offers;
+  selectedSortType: string;
+  selectedPoint: {
+    title: string;
+  } | null;
 };
 
 const initialState: StateType = {
   city: 'Paris',
   offerList: [],
+  selectedSortType: 'Popular',
+  selectedPoint: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -20,6 +29,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fillOfferList, (state) => {
       state.offerList = offers;
+    })
+    .addCase(setSortType, (state, { payload }) => {
+      state.selectedSortType = payload;
+    })
+    .addCase(setSelectedPoint, (state, { payload }) => {
+      state.selectedPoint = payload;
     });
 });
 

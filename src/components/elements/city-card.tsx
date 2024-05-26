@@ -1,5 +1,7 @@
 import { Offer } from '../../types/offer';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { setSelectedPoint } from '../../store/action';
 
 type CityCardProps = {
   offer: Offer;
@@ -22,9 +24,14 @@ function PremiumCard (isPremium: boolean): JSX.Element {
 function CityCard(props: CityCardProps): JSX.Element {
   const {offer} = props;
   const {id, src, price, rating, title, type, isPremium} = offer;
+  const dispatch = useAppDispatch();
 
   return (
-    <article className="cities__card place-card">
+    <article
+      className="cities__card place-card"
+      onMouseOver={() => dispatch(setSelectedPoint({ title }))}
+      onMouseLeave={() => dispatch(setSelectedPoint(null))}
+    >
       {PremiumCard(isPremium)}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>

@@ -96,11 +96,11 @@ function MainScreen(): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <ListOfCards offers={currentCityOffers} numberOfOffers={currentCityOffers.length}/>
+              <ListOfCards offers={currentCityOffers}/>
             </section>
             <div className="cities__right-section">
               <section className='cities__map map'>
-                <Map city={currentCityOffers[0]} points={currentCityOffers} selectedPoint={currentCityOffers[0]} />
+                <Map city={currentCityOffers[0]} points={currentCityOffers} />
               </section>
             </div>
           </div>
