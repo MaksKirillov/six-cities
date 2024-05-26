@@ -6,23 +6,31 @@ import FavouritesScreen from './components/pages/favourites-screen';
 import OfferScreen from './components/pages/offer-screen';
 import NotFoundScreen from './components/pages/not-found-screen';
 import PrivateRoute from './components/private-route/private-route';
+import { useAppDispatch, useAppSelector } from './hooks';
+import { fillOfferList } from './store/action';
 import { Offers } from './types/offer';
 import { Reviews } from './types/review';
 
 type AppScreenProps = {
-  numberOfOffers: number;
-  offers: Offers;
   numberOfReviews: number;
   reviews: Reviews;
 }
 
-function App({numberOfOffers, offers, numberOfReviews, reviews}: AppScreenProps): JSX.Element {
+function App({numberOfReviews, reviews}: AppScreenProps): JSX.Element | null {
+  const offers: Offers = useAppSelector((state) => state.offerList);
+  const dispatch = useAppDispatch();
+  dispatch(fillOfferList());
+
+  if (offers.length === 0) {
+    return null;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen numberOfOffers={numberOfOffers} offers={offers} />}
+          element={<MainScreen />}
         />
         <Route
           path={AppRoute.Login}
@@ -40,7 +48,7 @@ function App({numberOfOffers, offers, numberOfReviews, reviews}: AppScreenProps)
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferScreen numberOfReviews={numberOfReviews} rewiews={reviews} numberOfOffers={numberOfOffers} offers={offers} />}
+          element={<OfferScreen numberOfReviews={numberOfReviews} rewiews={reviews} numberOfOffers={offers.length} offers={offers} />}
         />
         <Route
           path="*"

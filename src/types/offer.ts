@@ -1,5 +1,6 @@
 export type Offer = {
   id: number;
+  city: string;
   src: string;
   price: number; // in euro
   rating: number; // 0% - 100%

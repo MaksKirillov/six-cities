@@ -1,14 +1,23 @@
-import { Offers } from '../../types/offer';
+import { Offer } from '../../types/offer';
 import ListOfCards from '../elements/list-of-cards';
-import { Link } from 'react-router-dom';
+import ListOfCities from '../elements/list-of-cities';
+import { Cities } from '../../const';
 import Map from '../map/map';
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../../hooks';
+import { Link } from 'react-router-dom';
 
-type MainScreenProps = {
-  numberOfOffers: number;
-  offers: Offers;
-}
 
-function MainScreen({numberOfOffers, offers}: MainScreenProps): JSX.Element {
+function MainScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offerList);
+  const [currentCityOffers, setCurrentCityOffers] = useState<Offer[]>(offers);
+
+  const city = useAppSelector((state) => state.city);
+  useEffect(() => {
+    const filteredOffers = offers.filter((offer) => offer.city === city);
+    setCurrentCityOffers(filteredOffers);
+  }, [city, offers]);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -53,45 +62,14 @@ function MainScreen({numberOfOffers, offers}: MainScreenProps): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
+            <ListOfCities cities={Cities} />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{numberOfOffers} places to stay in Amsterdam</b>
+              <b className="places__found">{currentCityOffers.length} places to stay in {city}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -118,11 +96,11 @@ function MainScreen({numberOfOffers, offers}: MainScreenProps): JSX.Element {
                   </li>
                 </ul>
               </form>
-              <ListOfCards offers={offers} numberOfOffers={numberOfOffers}/>
+              <ListOfCards offers={currentCityOffers} numberOfOffers={currentCityOffers.length}/>
             </section>
             <div className="cities__right-section">
               <section className='cities__map map'>
-                <Map city={offers[0]} points={offers} selectedPoint={offers[0]} />
+                <Map city={currentCityOffers[0]} points={currentCityOffers} selectedPoint={currentCityOffers[0]} />
               </section>
             </div>
           </div>
