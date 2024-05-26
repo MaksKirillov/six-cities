@@ -54,7 +54,7 @@ export const offers: Offer[] = [
     lng: 4.929309666406198,
   },
   {
-    id: 4,
+    id: 5,
     city: 'Brussels',
     src: 'img/apartment-01.jpg',
     price: 180, // in euro
@@ -65,23 +65,23 @@ export const offers: Offer[] = [
     isFavourite: false,
     lat: 52.3809553943508,
     lng: 4.939309666406198,
-  },
-  {
-    id: 5,
-    city: 'Brussels',
-    src: 'img/apartment-02.jpg',
-    price: 50, // in euro
-    rating: 25, // 0 - 100
-    title: 'Nice apartment',
-    type: 'Apartment',
-    isPremium: false,
-    isFavourite: false,
-    lat: 52.3609553943508,
-    lng: 4.85309666406198,
   },
   {
     id: 6,
     city: 'Brussels',
+    src: 'img/apartment-02.jpg',
+    price: 50, // in euro
+    rating: 25, // 0 - 100
+    title: 'Nice apartment',
+    type: 'Apartment',
+    isPremium: false,
+    isFavourite: false,
+    lat: 52.3609553943508,
+    lng: 4.85309666406198,
+  },
+  {
+    id: 7,
+    city: 'Brussels',
     src: 'img/apartment-03.jpg',
     price: 200, // in euro
     rating: 100, // 0 - 100
@@ -93,7 +93,7 @@ export const offers: Offer[] = [
     lng: 4.929309666406198,
   },
   {
-    id: 7,
+    id: 8,
     city: 'Brussels',
     src: 'img/apartment-01.jpg',
     price: 180, // in euro
@@ -106,7 +106,7 @@ export const offers: Offer[] = [
     lng: 4.939309666406198,
   },
   {
-    id: 8,
+    id: 9,
     city: 'Cologne',
     src: 'img/apartment-02.jpg',
     price: 50, // in euro
@@ -119,7 +119,7 @@ export const offers: Offer[] = [
     lng: 4.85309666406198,
   },
   {
-    id: 9,
+    id: 10,
     city: 'Cologne',
     src: 'img/apartment-03.jpg',
     price: 200, // in euro
@@ -132,7 +132,7 @@ export const offers: Offer[] = [
     lng: 4.929309666406198,
   },
   {
-    id: 10,
+    id: 11,
     city: 'Cologne',
     src: 'img/apartment-01.jpg',
     price: 180, // in euro
@@ -145,7 +145,7 @@ export const offers: Offer[] = [
     lng: 4.939309666406198,
   },
   {
-    id: 11,
+    id: 12,
     city: 'Amsterdam',
     src: 'img/apartment-03.jpg',
     price: 200, // in euro
@@ -158,7 +158,7 @@ export const offers: Offer[] = [
     lng: 4.929309666406198,
   },
   {
-    id: 12,
+    id: 13,
     city: 'Brussels',
     src: 'img/apartment-01.jpg',
     price: 180, // in euro

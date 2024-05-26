@@ -191,7 +191,7 @@ function OfferScreen({numberOfOffers, offers, numberOfReviews, rewiews}: OfferSc
             </div>
           </div>
           <section className='cities__map map'>
-            <Map city={offers[0]} points={offers} selectedPoint={offers[0]} />
+            <Map city={offers[0]} points={offers} />
           </section>
         </section>
         <div className="container">

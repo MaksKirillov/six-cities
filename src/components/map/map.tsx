@@ -3,12 +3,12 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import useMap from '../../hooks/use-map';
 import { Offer, Offers } from '../../types/offer';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
+import { useAppSelector } from '../../hooks';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: Offer;
   points: Offers;
-  selectedPoint: Offer | undefined;
 };
 
 const defaultCustomIcon = new Icon({
@@ -24,10 +24,14 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, points, selectedPoint} = props;
+  const {city, points} = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+
+  const selectedPoint: null | { title: string } = useAppSelector(
+    (state) => state.selectedPoint
+  );
 
   useEffect(() => {
     if (map) {
@@ -40,7 +44,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
+            selectedPoint !== null && point.title === selectedPoint.title
               ? currentCustomIcon
               : defaultCustomIcon
           )
