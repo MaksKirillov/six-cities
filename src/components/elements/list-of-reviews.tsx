@@ -2,19 +2,24 @@ import ReviewCard from './review';
 import { Reviews } from '../../types/review';
 
 type ListOfReviewsProps = {
-  numberOfReviews: number;
-  rewiews: Reviews;
+  reviews: Reviews;
 }
 
-function ListOfReviews({numberOfReviews, rewiews}: ListOfReviewsProps): JSX.Element {
-  const reviewList = [];
-  for (let i = 0; i < numberOfReviews; i++) {
-    reviewList.push(<li key={i}><ReviewCard review={rewiews[i]}/></li>);
-  }
-
+function ListOfReviews({reviews}: ListOfReviewsProps): JSX.Element {
   return (
     <ul className="reviews__list">
-      {reviewList}
+      {reviews
+        .slice()
+        .sort((reviewA, reviewB) => {
+          const dateA = new Date(reviewA.date).getTime();
+          const dateB = new Date(reviewB.date).getTime();
+
+          return dateB - dateA;
+        })
+        .slice(0, 10)
+        .map((review) => (
+          <ReviewCard key={review.id} review={review} />
+        ))}
     </ul>
   );
 }

@@ -10,7 +10,7 @@ export type City = {
 }
 
 export type Offer = {
-  id: number;
+  id: string;
   title: string;
   type: string;
   price: number;
@@ -20,6 +20,21 @@ export type Offer = {
   isPremium: boolean;
   isFavourite: boolean;
   rating: number;
-};
+}
+
+type Host = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type ExtendedOffer = Omit<Offer, 'previewImage'> & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: Host;
+  maxAdults: number;
+  images: string[];
+}
 
 export type Offers = Offer[];

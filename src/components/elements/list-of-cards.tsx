@@ -1,5 +1,6 @@
 import OfferCard from './offer-card';
 import { Offers } from '../../types/offer';
+import { CardType } from '../../const';
 
 type ListOfCardsProps = {
   offers: Offers;
@@ -12,6 +13,7 @@ function ListOfCards({ offers }: ListOfCardsProps): JSX.Element {
         <OfferCard
           key={offer.id}
           offer={offer}
+          cardType={CardType.regular}
         />
       ))}
     </div>

@@ -8,13 +8,8 @@ import NotFoundScreen from './components/pages/not-found-screen';
 import PrivateRoute from './components/private-route/private-route';
 import LoadingScreen from './components/pages/loading-screen';
 import { useAppSelector } from './hooks';
-import { Reviews } from './types/review';
 
-type AppScreenProps = {
-  reviews: Reviews;
-}
-
-function App({reviews}: AppScreenProps): JSX.Element | null {
+function App(): JSX.Element | null {
   const isOffersDataLoading = useAppSelector(
     (state) => state.isOffersDataLoading
   );
@@ -51,7 +46,7 @@ function App({reviews}: AppScreenProps): JSX.Element | null {
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferScreen reviews={reviews} />}
+          element={<OfferScreen />}
         />
         <Route
           path="*"
