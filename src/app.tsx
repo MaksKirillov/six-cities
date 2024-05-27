@@ -19,7 +19,14 @@ function App({reviews}: AppScreenProps): JSX.Element | null {
     (state) => state.isOffersDataLoading
   );
 
-  if (isOffersDataLoading) {
+  const authorizationStatus = useAppSelector(
+    (state) => state.authorizationStatus
+  );
+
+  if (
+    authorizationStatus === AuthorizationStatus.Unknown ||
+    isOffersDataLoading
+  ) {
     return <LoadingScreen />;
   }
 
@@ -37,9 +44,7 @@ function App({reviews}: AppScreenProps): JSX.Element | null {
         <Route
           path={AppRoute.Favourites}
           element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
-            >
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <FavouritesScreen />
             </PrivateRoute>
           }
