@@ -8,6 +8,7 @@ function FavouritesScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
   const favourites = useAppSelector(getFavorites);
   const favouriteOffers = offers.filter((offer) => favourites.includes(offer.id));
+  const favouriteCities = [...new Set(favouriteOffers.map((offer) => offer.city.name))];
 
   return (
     <div className="page">
@@ -19,10 +20,10 @@ function FavouritesScreen(): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {favouriteOffers.map((offer) => (
+                {favouriteCities.map((city) => (
                   <FavouritesOffersBlock
-                    city={offer.city.name}
-                    key={offer.id}
+                    city={city}
+                    key={city}
                   />
                 ))}
               </ul>

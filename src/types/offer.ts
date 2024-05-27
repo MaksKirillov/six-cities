@@ -20,7 +20,7 @@ export type Offer = {
   city: City;
   location: Location;
   isPremium: boolean;
-  isFavourite: boolean;
+  isFavorite: boolean;
   rating: number;
 }
 

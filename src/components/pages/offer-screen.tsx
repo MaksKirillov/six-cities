@@ -145,8 +145,8 @@ function OfferScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <section className='cities__map map'>
-            <Map points={nearbyOffers ? selectedOffer?.nearbyOffers.map((of) => of.location).slice(0, 3).concat(selectedOffer.offerData.location) : []} />
+          <section className='offer__map map'>
+            <Map points={nearbyOffers ? nearbyOffers?.slice(0, 3).map((of) => of.location).concat(selectedOffer.offerData.location) : []} />
           </section>
         </section>
         <div className="container">

@@ -11,7 +11,7 @@ type FavouritesOffersBlockProps = {
 function FavouritesOffersBlock({ city }: FavouritesOffersBlockProps): JSX.Element {
   const offers = useAppSelector(getOffers)
     .filter((offer: Offer) => offer.city.name === city)
-    .filter((offer: Offer) => offer.isFavourite === true);
+    .filter((offer: Offer) => offer.isFavorite === true);
 
   return (
     <li className="favorites__locations-items">
