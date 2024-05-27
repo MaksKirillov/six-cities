@@ -49,10 +49,17 @@ export const Cities = [
   },
 ];
 
+export enum CardType {
+  favourites = 'favorites__card',
+  nearest = 'near-places__card',
+  regular = 'cities__card',
+}
+
 export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments'
 }
 
 export enum AppRoute {

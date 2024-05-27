@@ -1,25 +1,61 @@
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { sendCommentAction } from '../../store/api-action';
+import { useAppDispatch } from '../../hooks';
 
 type Rating = {
   rating: string;
-  review: string;
+  comment: string;
 }
 
-function ReviewForm() {
-  const [formState, setFormState] = useState<Rating>({
-    rating: '0',
-    review: 'Your review',
-  });
+type ReviewFormProps = {
+  id: string;
+};
 
-  const onReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+function ReviewForm({ id }: ReviewFormProps) {
+  const [formState, setFormState] = useState<Rating>({
+    rating: '',
+    comment: '',
+  });
+  const dispatch = useAppDispatch();
+
+  const onReviewChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setFormState((prevReview) => ({
       ...prevReview,
-      review: e.target.value,
+      comment: e.target.value,
     }));
   };
 
+  const onRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      rating: e.target.value,
+    }));
+  };
+
+  const onFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(
+      sendCommentAction({
+        id,
+        comment: {
+          comment: formState.comment,
+          rating: Number(formState.rating),
+        },
+      })
+    );
+
+    setFormState((prevState) => ({
+      ...prevState,
+      rating: '',
+      comment: '',
+    }));
+  };
+
+  const isValid = () =>
+    formState.comment.trim().length > 49 && formState.rating !== '';
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" onSubmit={onFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -30,12 +66,7 @@ function ReviewForm() {
           value="5"
           id="5-stars"
           type="radio"
-          onChange={() => {
-            setFormState((prevRating) => ({
-              ...prevRating,
-              rating: '5',
-            }));
-          }}
+          onChange={onRatingChange}
           checked={formState.rating === '5'}
         />
         <label
@@ -54,12 +85,7 @@ function ReviewForm() {
           value="4"
           id="4-stars"
           type="radio"
-          onChange={() => {
-            setFormState((prevRating) => ({
-              ...prevRating,
-              rating: '4',
-            }));
-          }}
+          onChange={onRatingChange}
           checked={formState.rating === '4'}
         />
         <label
@@ -78,12 +104,7 @@ function ReviewForm() {
           value="3"
           id="3-stars"
           type="radio"
-          onChange={() => {
-            setFormState((prevRating) => ({
-              ...prevRating,
-              rating: '3',
-            }));
-          }}
+          onChange={onRatingChange}
           checked={formState.rating === '3'}
         />
         <label
@@ -102,12 +123,7 @@ function ReviewForm() {
           value="2"
           id="2-stars"
           type="radio"
-          onChange={() => {
-            setFormState((prevRating) => ({
-              ...prevRating,
-              rating: '2',
-            }));
-          }}
+          onChange={onRatingChange}
           checked={formState.rating === '2'}
         />
         <label
@@ -126,12 +142,7 @@ function ReviewForm() {
           value="1"
           id="1-star"
           type="radio"
-          onChange={() => {
-            setFormState((prevRating) => ({
-              ...prevRating,
-              rating: '1',
-            }));
-          }}
+          onChange={onRatingChange}
           checked={formState.rating === '1'}
         />
         <label
@@ -148,7 +159,7 @@ function ReviewForm() {
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
-        value={formState.review}
+        value={formState.comment}
         onChange={onReviewChange}
         placeholder="YourReview"
       />
@@ -161,7 +172,7 @@ function ReviewForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={!isValid()}
         >
           Submit
         </button>
