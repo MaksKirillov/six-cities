@@ -1,19 +1,18 @@
 import { useAppDispatch } from '../../hooks';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/offer-process/offer-process';
+import { cities } from '../../const';
 import CityCard from './city-card';
-import { City } from '../../types/offer';
-import { Cities } from '../../const';
 
 function ListOfCities(): JSX.Element {
   const dispatch = useAppDispatch();
-  const handleCityChange = (city: City) => {
+  const handleCityChange = (city: string) => {
     dispatch(changeCity(city));
   };
   return (
     <ul className="locations__list tabs__list">
-      {Cities.map((city) => (
+      {cities.map((city) => (
         <CityCard
-          key={city.name}
+          key={city}
           city={city}
           changeSelectedCity={handleCityChange}
         />

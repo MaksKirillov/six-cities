@@ -1,22 +1,13 @@
 import Header from '../elements/header';
-import { Offer } from '../../types/offer';
 import FavouritesOffersBlock from '../elements/favourites-offers';
 import { useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/offer-process/selectors';
+import { getFavorites } from '../../store/favorite-process/selectors';
 
 function FavouritesScreen(): JSX.Element {
-  const [offers] = useAppSelector((state) => [
-    [...state.offerList]
-      .filter((offer: Offer) => offer.isFavourite === true),
-  ]);
-  const favourites = offers;
-  const favouritesMap = favourites.reduce(
-    (acc: Record<string, Offer[]>, place: Offer) => {
-      const city = place.city.name;
-      acc[city] = [...(acc[city] ?? []), place];
-      return acc;
-    },
-    {}
-  );
+  const offers = useAppSelector(getOffers);
+  const favourites = useAppSelector(getFavorites);
+  const favouriteOffers = offers.filter((offer) => favourites.includes(offer.id));
 
   return (
     <div className="page">
@@ -28,10 +19,10 @@ function FavouritesScreen(): JSX.Element {
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Object.keys(favouritesMap).map((city) => (
+                {favouriteOffers.map((offer) => (
                   <FavouritesOffersBlock
-                    city={city}
-                    key={favouritesMap[city][0].id}
+                    city={offer.city.name}
+                    key={offer.id}
                   />
                 ))}
               </ul>

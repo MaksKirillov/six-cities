@@ -1,20 +1,23 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setSortType } from '../../store/action';
+import { changeFilter } from '../../store/offer-process/offer-process';
+import { getFilterType } from '../../store/offer-process/selectors';
 
 const SORT_TYPES = {
-  0: 'Price: low to high',
-  1: 'Price: high to low',
-  2: 'Top rated first',
+  0: 'Popular',
+  1: 'Price: low to high',
+  2: 'Price: high to low',
+  3: 'Top rated first',
 };
 
 function SortingBlock() {
   const [isOpen, setIsOpen] = useState(false);
-  const selectedSortType = useAppSelector((state) => state.selectedSortType);
+  const selectedSortType = useAppSelector(getFilterType);
 
   const dispatch = useAppDispatch();
   const handleSortTypeChange = (sortType: string) => {
-    dispatch(setSortType(sortType));
+    dispatch(changeFilter(sortType));
+    setIsOpen(false);
   };
   return (
     <form

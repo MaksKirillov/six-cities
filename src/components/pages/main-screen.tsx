@@ -1,20 +1,16 @@
-import { Offer } from '../../types/offer';
 import ListOfCards from '../elements/list-of-cards';
 import ListOfCities from '../elements/list-of-cities';
 import SortingBlock from '../elements/sorting-block';
 import Header from '../elements/header';
 import Map from '../map/map';
 import { useAppSelector } from '../../hooks';
-import { getOfferComparator } from '../../utils/utils';
-
+import { getCity, getOffers } from '../../store/offer-process/selectors';
+import { CardType } from '../../const';
 
 function MainScreen(): JSX.Element {
-  const [offers, city] = useAppSelector((state) => [
-    [...state.offerList]
-      .sort(getOfferComparator(state.selectedSortType))
-      .filter((offer: Offer) => offer.city.name === state.city.name),
-    state.city.name,
-  ]);
+  const city = useAppSelector(getCity);
+  const offers = useAppSelector(getOffers);
+  const cityOffers = offers.filter((offer) => offer.city.name === city);
 
   return (
     <div className="page page--gray page--main">
@@ -31,13 +27,13 @@ function MainScreen(): JSX.Element {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offers.length} places to stay in {city}</b>
+                <b className="places__found">{cityOffers.length} places to stay in {city}</b>
                 <SortingBlock />
-                <ListOfCards offers={offers}/>
+                <ListOfCards offers={cityOffers} cardType={CardType.regular}/>
               </section>
               <div className="cities__right-section">
                 <section className='cities__map map'>
-                  <Map points={offers} />
+                  <Map points={cityOffers.map((of) => of.location)} />
                 </section>
               </div>
             </div>

@@ -1,17 +1,15 @@
-import { Offer } from '../types/offer';
+import { Offers } from '../types/offer';
 
-type OfferComparator = (offerA: Offer, offerB: Offer) => number;
-export const getOfferComparator = (sortType: string): OfferComparator => {
-  switch (sortType) {
+export const getOfferComparator = (offers: Offers | undefined, filterType: string): Offers | undefined => {
+  const defaultOffers = offers?.slice();
+  switch (filterType) {
     case 'Popular':
-      return () => 0;
+      return offers;
     case 'Price: low to high':
-      return (offerA, offerB) => offerA.price - offerB.price;
+      return defaultOffers?.sort((a, b) => a.price - b.price);
     case 'Price: high to low':
-      return (offerA, offerB) => offerB.price - offerA.price;
+      return defaultOffers?.sort((a, b) => b.price - a.price);
     case 'Top rated first':
-      return (offerA, offerB) => offerB.rating - offerA.rating;
-    default:
-      throw new Error('Unknown sort type!');
+      return defaultOffers?.sort((a, b) => b.rating - a.rating);
   }
 };
