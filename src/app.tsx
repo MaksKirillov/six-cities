@@ -1,5 +1,6 @@
-import { Route, BrowserRouter, Routes} from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from './const';
+import { Route, Routes} from 'react-router-dom';
+import { AppRoute } from './const';
+import { useEffect } from 'react';
 import MainScreen from './components/pages/main-screen';
 import LoginScreen from './components/pages/login-screen';
 import FavouritesScreen from './components/pages/favourites-screen';
@@ -8,25 +9,29 @@ import NotFoundScreen from './components/pages/not-found-screen';
 import PrivateRoute from './components/private-route/private-route';
 import LoadingScreen from './components/pages/loading-screen';
 import { useAppSelector } from './hooks';
+import { store } from './store/index.ts';
+import { getIsOfferDataLoading } from './store/offer-process/selectors';
+import { getAuthorizationStatus } from './store/user-process/selectors';
+import { getAuthCheckedStatus } from './store/user-process/selectors';
+import { fetchFavoritesAction } from './store/api-action';
+import HistoryRouter from './components/history-route/history-route.tsx';
+import browserHistory from './browser-history.ts';
 
 function App(): JSX.Element | null {
-  const isOffersDataLoading = useAppSelector(
-    (state) => state.isOffersDataLoading
-  );
+  const isOffersDataLoading = useAppSelector(getIsOfferDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
 
-  const authorizationStatus = useAppSelector(
-    (state) => state.authorizationStatus
-  );
+  useEffect(() => {
+    store.dispatch(fetchFavoritesAction());
+  }, [authorizationStatus]);
 
-  if (
-    authorizationStatus === AuthorizationStatus.Unknown ||
-    isOffersDataLoading
-  ) {
+  if (!isAuthChecked || isOffersDataLoading) {
     return <LoadingScreen />;
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -39,7 +44,7 @@ function App(): JSX.Element | null {
         <Route
           path={AppRoute.Favourites}
           element={
-            <PrivateRoute authorizationStatus={authorizationStatus}>
+            <PrivateRoute>
               <FavouritesScreen />
             </PrivateRoute>
           }
@@ -53,7 +58,7 @@ function App(): JSX.Element | null {
           element={<NotFoundScreen />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

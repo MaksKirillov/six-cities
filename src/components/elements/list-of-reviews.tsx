@@ -2,14 +2,13 @@ import ReviewCard from './review';
 import { Reviews } from '../../types/review';
 
 type ListOfReviewsProps = {
-  reviews: Reviews;
+  reviews: Reviews | undefined;
 }
 
 function ListOfReviews({reviews}: ListOfReviewsProps): JSX.Element {
   return (
     <ul className="reviews__list">
-      {reviews
-        .slice()
+      {reviews?.slice()
         .sort((reviewA, reviewB) => {
           const dateA = new Date(reviewA.date).getTime();
           const dateB = new Date(reviewB.date).getTime();

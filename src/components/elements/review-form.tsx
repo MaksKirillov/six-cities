@@ -1,21 +1,20 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { sendCommentAction } from '../../store/api-action';
-import { useAppDispatch } from '../../hooks';
+import { useState, ChangeEvent } from 'react';
+import { getSelectedOffer } from '../../store/selected-offer-process/selectors';
+import { postComment } from '../../store/api-action';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 type Rating = {
-  rating: string;
+  rating: number;
   comment: string;
 }
 
-type ReviewFormProps = {
-  id: string;
-};
-
-function ReviewForm({ id }: ReviewFormProps) {
+function ReviewForm() {
   const [formState, setFormState] = useState<Rating>({
-    rating: '',
+    rating: 0,
     comment: '',
   });
+
+  const id = useAppSelector(getSelectedOffer)?.offerData.id;
   const dispatch = useAppDispatch();
 
   const onReviewChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,31 +27,27 @@ function ReviewForm({ id }: ReviewFormProps) {
   const onRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormState((prevState) => ({
       ...prevState,
-      rating: e.target.value,
+      rating: Number(e.target.value),
     }));
   };
 
-  const onFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
+  const onFormSubmit = () => {
     dispatch(
-      sendCommentAction({
-        id,
-        comment: {
-          comment: formState.comment,
-          rating: Number(formState.rating),
-        },
+      postComment({
+        comment: formState.comment,
+        rating: formState.rating,
+        offerId: id,
       })
     );
-
     setFormState((prevState) => ({
       ...prevState,
-      rating: '',
-      comment: '',
+      rating: 0,
+      comment: ''
     }));
   };
 
   const isValid = () =>
-    formState.comment.trim().length > 49 && formState.rating !== '';
+    formState.comment.trim().length > 49;
 
   return (
     <form className="reviews__form form" onSubmit={onFormSubmit}>
@@ -67,7 +62,7 @@ function ReviewForm({ id }: ReviewFormProps) {
           id="5-stars"
           type="radio"
           onChange={onRatingChange}
-          checked={formState.rating === '5'}
+          checked={formState.rating === 5}
         />
         <label
           htmlFor="5-stars"
@@ -86,7 +81,7 @@ function ReviewForm({ id }: ReviewFormProps) {
           id="4-stars"
           type="radio"
           onChange={onRatingChange}
-          checked={formState.rating === '4'}
+          checked={formState.rating === 4}
         />
         <label
           htmlFor="4-stars"
@@ -105,7 +100,7 @@ function ReviewForm({ id }: ReviewFormProps) {
           id="3-stars"
           type="radio"
           onChange={onRatingChange}
-          checked={formState.rating === '3'}
+          checked={formState.rating === 3}
         />
         <label
           htmlFor="3-stars"
@@ -124,7 +119,7 @@ function ReviewForm({ id }: ReviewFormProps) {
           id="2-stars"
           type="radio"
           onChange={onRatingChange}
-          checked={formState.rating === '2'}
+          checked={formState.rating === 2}
         />
         <label
           htmlFor="2-stars"
@@ -143,7 +138,7 @@ function ReviewForm({ id }: ReviewFormProps) {
           id="1-star"
           type="radio"
           onChange={onRatingChange}
-          checked={formState.rating === '1'}
+          checked={formState.rating === 1}
         />
         <label
           htmlFor="1-star"

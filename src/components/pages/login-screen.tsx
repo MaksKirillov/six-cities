@@ -1,7 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, FormEvent } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector} from '../../hooks';
 import { loginAction } from '../../store/api-action';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { AppRoute } from '../../const';
+import { AuthorizationStatus } from '../../const';
 
 function LoginScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -9,6 +12,11 @@ function LoginScreen(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const status = useAppSelector(getAuthorizationStatus);
+  if (status === AuthorizationStatus.Auth) {
+    window.location.href = AppRoute.Main;
+  }
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
