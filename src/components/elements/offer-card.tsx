@@ -5,7 +5,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavorite, fetchOfferAction } from '../../store/api-action';
 import { changeSelectedPoint } from '../../store/offer-process/offer-process';
 import { getFavorites } from '../../store/favorite-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { AuthorizationStatus } from '../../const';
 import { CardType } from '../../const';
+import { AppRoute } from '../../const';
 
 type OfferCardProps = {
   offer: Offer;
@@ -33,16 +36,22 @@ function OfferCardComponent(props: OfferCardProps): JSX.Element {
 
   const favorites = useAppSelector(getFavorites);
 
+  const status = useAppSelector(getAuthorizationStatus);
+
   const handleOfferTitleClick = () => {
     dispatch(fetchOfferAction(offer.id));
   };
 
   const handleAddFavorite = () => {
-    dispatch(changeFavorite({
-      favorites: favorites,
-      offerId: offer.id,
-      status: favorites.includes(offer.id) ? 0 : 1
-    }));
+    if (status === AuthorizationStatus.Auth) {
+      dispatch(changeFavorite({
+        favorites: favorites,
+        offerId: offer.id,
+        status: favorites.includes(offer.id) ? 0 : 1
+      }));
+    } else {
+      window.location.href = AppRoute.Login;
+    }
   };
 
   const handleOnMouseEnter = () => {
