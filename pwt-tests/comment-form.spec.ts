@@ -35,10 +35,32 @@ test.describe('Работоспособность формы отправки к
 
     // заходим на первый оффер
     await page.locator('.cities__card').first().locator('.place-card__name').click();
+    await page.locator('.cities__card').first().locator('.place-card__name').click();
     await page.waitForSelector('.page__main--offer');
 
     // форма коментария видна
     const isCommentFormExist = await page.locator('.reviews__form').isVisible();
     expect(isCommentFormExist).toBeTruthy();
+
+    // заполняем форму
+    const sumbittedText = 'Проверка50 Проверка50 Проверка50 Проверка50 Проверка50 Проверка50 Проверка50 Проверка50 Проверка50 Проверка50';
+    await page.fill('textarea[name="review"]', sumbittedText);
+    await page.getByTitle('terribly').click();
+
+    await Promise.all([
+      page.waitForResponse(
+        (resp) => resp.url().includes('/comments') && resp.status() === 201
+      ),
+      page.click('button[type="submit"]'),
+    ]);
+
+    // проверяем новый комментарий
+    const newReviewText = await page.locator('.reviews__text').first().textContent();
+    const newReviewUser = await page.locator('.reviews__user-name').first().textContent();
+    const newReviewRating = await page.locator('.reviews__stars>span').first().getAttribute('style');
+
+    expect(newReviewText).toBe(sumbittedText);
+    expect(newReviewUser).toBe('example');
+    expect(newReviewRating).toBe('width: 20px;');
   });
 });

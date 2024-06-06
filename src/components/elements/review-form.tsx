@@ -31,7 +31,8 @@ function ReviewForm() {
     }));
   };
 
-  const onFormSubmit = () => {
+  const onFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     dispatch(
       postComment({
         comment: formState.comment,
