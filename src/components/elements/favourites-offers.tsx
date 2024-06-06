@@ -3,6 +3,7 @@ import ListOfCards from './list-of-cards';
 import { useAppSelector } from '../../hooks';
 import { getOffers } from '../../store/offer-process/selectors';
 import { CardType } from '../../const';
+import { Link } from 'react-router-dom';
 
 type FavouritesOffersBlockProps = {
   city: string;
@@ -17,9 +18,9 @@ function FavouritesOffersBlock({ city }: FavouritesOffersBlockProps): JSX.Elemen
     <li className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
-          <a className="locations__item-link" href="#">
+          <Link className="locations__item-link" to="/">
             <span>{city}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="favorites__places">

@@ -47,9 +47,9 @@ function Header(): JSX.Element {
               </li>
               {isAuthed && (
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
+                  <div className="header__nav-link">
                     <span className="header__signout" onClick={onLogOut}>Sign out</span>
-                  </a>
+                  </div>
                 </li>
               )}
             </ul>

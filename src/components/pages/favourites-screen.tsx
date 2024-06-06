@@ -3,6 +3,7 @@ import FavouritesOffersBlock from '../elements/favourites-offers';
 import { useAppSelector } from '../../hooks';
 import { getOffers } from '../../store/offer-process/selectors';
 import { getFavorites } from '../../store/favorite-process/selectors';
+import { Link } from 'react-router-dom';
 
 function FavouritesScreen(): JSX.Element {
   const offers = useAppSelector(getOffers);
@@ -47,7 +48,7 @@ function FavouritesScreen(): JSX.Element {
         </main>
       )}
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link className="footer__logo-link" to="/">
           <img
             className="footer__logo"
             src="img/logo.svg"
@@ -55,7 +56,7 @@ function FavouritesScreen(): JSX.Element {
             width={64}
             height={33}
           />
-        </a>
+        </Link>
       </footer>
     </div>
   );
